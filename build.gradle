@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.6.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'idea'
 }
 
 configurations {
@@ -26,4 +27,19 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+sourceSets {
+    create("integrationTest") {
+        java.srcDir("src/integrationTest/scala")
+        resources.srcDir("src/integrationTest/resources")
+        runtimeClasspath += sourceSets["main"].runtimeClasspath + sourceSets["test"].runtimeClasspath
+        compileClasspath += sourceSets["main"].compileClasspath + sourceSets["test"].compileClasspath
+    }
+}
+
+idea {
+    module {
+        sourceSets.integrationTest.allSource.srcDirs.each { srcDir -> module.testSourceDirs += srcDir }
+    }
 }
