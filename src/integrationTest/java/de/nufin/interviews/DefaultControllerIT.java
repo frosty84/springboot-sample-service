@@ -11,20 +11,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-public class DefaultControllerIT {
+class DefaultControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void shouldCallDefaultController_withName_andReceiveSuccess() throws Exception {
+    void shouldCallDefaultController_withName_andReceiveSuccess() throws Exception {
         this.mockMvc.perform(get("/greet").param("name", "test"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Hello test"));
     }
 
     @Test
-    public void shouldCallDefaultController_withoutName_andReceivesBadRequest() throws Exception {
+    void shouldCallDefaultController_withoutName_andReceivesBadRequest() throws Exception {
         this.mockMvc.perform(get("/greet")).andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 }
