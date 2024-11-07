@@ -17,9 +17,16 @@ public class DefaultControllerIT {
     private MockMvc mockMvc;
 
     @Test
-    public void shouldCallDefaultController_andReceiveSuccess() throws Exception {
+    public void shouldCallDefaultController_withName_andReceiveSuccess() throws Exception {
+        this.mockMvc.perform(
+                get("/").param("name", "test")
+        ).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void shouldCallDefaultController_withoutName_andReceivesBadRequest() throws Exception {
         this.mockMvc.perform(
                 get("/")
-        ).andExpect(MockMvcResultMatchers.status().isOk());
+        ).andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 }
